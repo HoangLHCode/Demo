@@ -1,7 +1,0 @@
-#cloud-config
-package_upgrade: true
-packages:
-  - nginx
-runcmd:
-  - service nginx restart
-  - [ 'sh', '-c', 'echo "<head><title>Patient Portal Web: "`Le Hai Hoang - JK-ENR-HA-10812`"</title></head><body><h1>Patient Portal</h1><p>Web server: <strong>"`Le Hai Hoang - JK-ENR-HA-10812`"</strong></p></body>" > C:\inetpub\wwwroot\iisstart.htm']

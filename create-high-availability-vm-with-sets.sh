@@ -9,22 +9,22 @@ echo '------------------------------------------'
 echo 'Creating a Virtual Network for the VMs'
 az network vnet create \
     --resource-group hoanglh-test-rg \
-    --name hoanglh-PortalVnet \
-    --subnet-name hoanglh-PortalSubnet 
+    --name hoang812-PortalVnet \
+    --subnet-name hoang812-PortalSubnet 
 
 # Create a Network Security Group
 echo '------------------------------------------'
 echo 'Creating a Network Security Group'
 az network nsg create \
     --resource-group hoanglh-test-rg \
-    --name hoanglh-PortalNSG 
+    --name hoang812-PortalNSG 
 # Create a network security group rule for port 22.
 echo '------------------------------------------'
 echo 'Creating a SSH rule'
 az network nsg rule create \
     --resource-group hoanglh-test-rg \
-    --nsg-name hoanglh-PortalNSG \
-    --name hoanglh-NetworkSecurityGroupRuleSSH \
+    --nsg-name hoang812-PortalNSG \
+    --name hoang812-NetworkSecurityGroupRuleSSH \
     --protocol tcp \
     --direction inbound \
     --source-address-prefix '*' \
@@ -39,7 +39,7 @@ echo '------------------------------------------'
 echo 'Allowing access on port 80'
 az network nsg rule create \
     --resource-group hoanglh-test-rg \
-    --nsg-name hoanglh-PortalNSG \
+    --nsg-name hoang812-PortalNSG \
     --name Allow-80-Inbound \
     --priority 200 \
     --source-address-prefixes '*' \
@@ -54,32 +54,32 @@ az network nsg rule create \
 # Create the NIC
 for i in `seq 1 3`; do
   echo '------------------------------------------'
-  echo 'Creating hoanglh-webNic'$i
+  echo 'Creating hoang812-webNic'$i
   az network nic create \
     --resource-group hoanglh-test-rg \
-    --name hoanglh-webNic$i \
-    --vnet-name hoanglh-PortalVnet \
-    --subnet hoanglh-PortalSubnet \
-    --network-security-group hoanglh-PortalNSG
+    --name hoang812-webNic$i \
+    --vnet-name hoang812-PortalVnet \
+    --subnet hoang812-PortalSubnet \
+    --network-security-group hoang812-PortalNSG
 done 
 
 # Create an availability set
 echo '------------------------------------------'
 echo 'Creating an availability set'
-az vm availability-set create -n hoanglh-portalAvailabilitySet -g hoanglh-test-rg
+az vm availability-set create -n hoang812-portalAvailabilitySet -g hoanglh-test-rg
 
 # Create 3 VM's from a template
 for i in `seq 1 3`; do
     echo '------------------------------------------'
-    echo 'Creating hoanglh-webVM'$i
+    echo 'Creating hoang812-webVM'$i
     az vm create \
         --admin-username hoanglh \
         --admin-password Admin123456789@ \
         --resource-group hoanglh-test-rg \
-        --name hoanglh-webVM$i \
-        --nics hoanglh-webNic$i \
+        --name hoang812-webVM$i \
+        --nics hoang812-webNic$i \
         --image win2019datacenter \
-        --availability-set hoanglh-portalAvailabilitySet \
+        --availability-set hoang812-portalAvailabilitySet \
         --generate-ssh-keys \
         --custom-data cloud-init.txt
 done

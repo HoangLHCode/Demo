@@ -1,12 +1,12 @@
-bash create-high-availability-vm-with-sets.sh hoanglh-test-rg
+bash create-high-availability-vm-with-sets.sh hoang812-test-rg
 
 az network public-ip create \
-  --resource-group hoanglh-test-rg \
+  --resource-group hoang812-test-rg \
   --allocation-method Static \
   --name hoang812-PublicIP
   
 az network lb create \
-  --resource-group hoanglh-test-rg \
+  --resource-group hoang812-test-rg \
   --name hoang812-LoadBalancer \
   --public-ip-address hoang812-PublicIP \
   --private-ip-address 10.0.0.9 \
@@ -14,21 +14,21 @@ az network lb create \
   --backend-pool-name hoang812-BackEndPool
 
 az network nic ip-config update \
-  --resource-group hoanglh-test-rg \
+  --resource-group hoang812-test-rg \
   --nic-name hoang812-webNic1 \
   --name ipconfig1 \
   --lb-name hoang812-LoadBalancer \
   --lb-address-pools hoang812-BackEndPool
 
 az network lb probe create \
-  --resource-group hoanglh-test-rg \
+  --resource-group hoang812-test-rg \
   --lb-name hoang812-LoadBalancer \
   --name hoang812-HealthProbe \
   --protocol tcp \
   --port 80
 
 az network lb rule create \
-  --resource-group hoanglh-test-rg \
+  --resource-group hoang812-test-rg \
   --lb-name hoang812-LoadBalancer \
   --name hoang812-HTTPRule \
   --protocol tcp \
@@ -39,28 +39,28 @@ az network lb rule create \
   --probe-name hoang812-HealthProbe
 
 az network nic ip-config update \
-  --resource-group hoanglh-test-rg \
+  --resource-group hoang812-test-rg \
   --nic-name hoang812-webNic1 \
   --name ipconfig1 \
   --lb-name hoang812-LoadBalancer \
   --lb-address-pools hoang812-BackEndPool
 
 az network nic ip-config update \
-  --resource-group hoanglh-test-rg \
+  --resource-group hoang812-test-rg \
   --nic-name hoang812-webNic2 \
   --name ipconfig1 \
   --lb-name hoang812-LoadBalancer \
   --lb-address-pools hoang812-BackEndPool
 
 az network nic ip-config update \
-  --resource-group hoanglh-test-rg \
+  --resource-group hoang812-test-rg \
   --nic-name hoang812-webNic3 \
   --name ipconfig1 \
   --lb-name hoang812-LoadBalancer \
   --lb-address-pools hoang812-BackEndPool
 
 echo http://$(az network public-ip show \
-                --resource-group hoanglh-test-rg \
+                --resource-group hoang812-test-rg \
                 --name hoang812-PublicIP \
                 --query ipAddress \
                 --output tsv)
